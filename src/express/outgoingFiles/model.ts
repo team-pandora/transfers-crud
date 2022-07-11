@@ -36,9 +36,9 @@ outgoingFileSchema.index({ name: 1 });
 setDefaultSettings(outgoingFileSchema);
 setErrorHandler(outgoingFileSchema);
 
-const outgoingFilesModel = mongoose.model<IOutgoingFile & mongoose.Document>(
+const outgoingFileModel = mongoose.model<IOutgoingFile & mongoose.Document>(
     config.mongo.outgoingFilesCollectionName,
     outgoingFileSchema,
 );
 
-export { outgoingFilesModel as outgoingFileModel };
+export default outgoingFileModel;

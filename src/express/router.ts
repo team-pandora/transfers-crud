@@ -2,11 +2,11 @@ import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { shragaCallbackMiddleware, shragaLoginMiddleware } from './auth';
 import { ServerError } from './error';
-import featuresRouter from './features/router';
+import outgoingRouter from './outgoingFiles/router';
 
-const appRouter = Router();
+const appRouter: Router = Router();
 
-appRouter.use('/api/features', featuresRouter);
+appRouter.use('/api/outgoing', outgoingRouter);
 
 /* SHRAGA AUTHENTICATION ROUTES */
 appRouter.get('/auth/login', shragaLoginMiddleware); // UI will redirect to this route to login with shraga

@@ -2,9 +2,23 @@ import * as Joi from 'joi';
 import { JoiMongoObjectId } from '../../utils/joi';
 
 /**
- * GET /api/features?data=someData123
+ * POST /api/outgoing/
+ * { data: 'someData123' }
  */
-export const getFeaturesRequestSchema = Joi.object({
+export const createOutgoingFileRequestSchema = Joi.object({
+    body: {
+        // approvers: Joi.array().items(Joi.string()).required(),
+        // fileName: Joi.string().alphanum().required(),
+    },
+    query: {},
+    params: {},
+});
+
+/**
+ * GET /api/features?data=someData123
+ * { data: 'someData123' }
+ */
+export const getOutgoingFileRequestSchema = Joi.object({
     query: {
         _id: JoiMongoObjectId.optional(),
         data: Joi.string().alphanum().optional(),
@@ -14,13 +28,15 @@ export const getFeaturesRequestSchema = Joi.object({
 });
 
 /**
- * POST /api/features/
+ * DELETE /api/features?data=someData123
  * { data: 'someData123' }
+ *
  */
-export const createFeatureRequestSchema = Joi.object({
-    body: {
-        data: Joi.string().alphanum().required(),
+export const deleteOutgoingFileRequestSchema = Joi.object({
+    query: {
+        _id: JoiMongoObjectId.optional(),
+        data: Joi.string().alphanum().optional(),
     },
-    query: {},
+    body: {},
     params: {},
 });

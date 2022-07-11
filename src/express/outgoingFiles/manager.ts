@@ -1,4 +1,4 @@
-import { IFeature, INewFeature } from './interface';
+import { IOutgoingFile } from './interface';
 import outgoingFilesModel from './model';
 
 /**
@@ -6,7 +6,7 @@ import outgoingFilesModel from './model';
  * @param {Partial<IFeature>} query - The query to filter the features.
  * @returns {Promise<IFeature[]>} - Promise object containing the filtered features.
  */
-export const getFeatures = (query: Partial<IFeature>): Promise<IFeature[]> => {
+export const getFeatures = (query: Partial<IOutgoingFile>): Promise<IOutgoingFile[]> => {
     return outgoingFilesModel.find(query).exec();
 };
 
@@ -15,6 +15,6 @@ export const getFeatures = (query: Partial<IFeature>): Promise<IFeature[]> => {
  * @param {INewFeature} feature - The feature to create.
  * @returns {Promise<IFeature>} - Promise object containing the created feature.
  */
-export const createFeature = (feature: INewFeature): Promise<IFeature> => {
+export const createFeature = (feature: IOutgoingFile): Promise<IOutgoingFile> => {
     return outgoingFilesModel.create(feature);
 };
