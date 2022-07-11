@@ -1,18 +1,10 @@
 import { Request, Response } from 'express';
-import * as FeaturesManager from './manager';
+import * as incomingFileManager from './manager';
 
-export const getFeatures = async (req: Request, res: Response) => {
-    res.json(await FeaturesManager.getFeatures(req.query));
+export const getIncomingFile = async (req: Request, res: Response) => {
+    res.json(await incomingFileManager.getFeatures(req.query));
 };
 
 export const createFeature = async (req: Request, res: Response) => {
-    res.json(await FeaturesManager.createFeature(req.body));
-};
-
-export const getShraga = async (req: Request, res: Response) => {
-    res.json(req.user);
-};
-
-export const getSpike = async (req: Request, res: Response) => {
-    res.json(req.client);
+    res.json(await incomingFileManager.createFeature(req.body));
 };

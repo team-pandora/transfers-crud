@@ -30,6 +30,6 @@ jobs:
 
       - name: test
         run: |
-          docker compose up -d mongo rabbit
+          docker compose up -d mongo
           npm i
           npm run test

@@ -18,12 +18,14 @@ const IncomingFileSchema = new mongoose.Schema<IIncomingFile & mongoose.Document
             type: 'ObjectId',
             required: true,
         },
-        ceratedAt: { type: Date, required: true },
         destination: { type: String, required: true },
         source: { type: String, required: true },
     },
     {
-        timestamps: true,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: false,
+        },
         versionKey: false,
     },
 );

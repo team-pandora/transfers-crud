@@ -8,11 +8,3 @@ export const getFeatures = async (req: Request, res: Response) => {
 export const createFeature = async (req: Request, res: Response) => {
     res.json(await FeaturesManager.createFeature(req.body));
 };
-
-export const getShraga = async (req: Request, res: Response) => {
-    res.json(req.user);
-};
-
-export const getSpike = async (req: Request, res: Response) => {
-    res.json(req.client);
-};

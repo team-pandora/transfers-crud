@@ -16,7 +16,7 @@ export interface IOutgoingFile {
 export interface IOutgoingStatus {
     flowName: string;
     steps: {
-        name: string;
+        fileName: string;
         stepsType: 'in progress' | 'failed' | 'success' | 'pending';
         timestamp: Date;
         description: {

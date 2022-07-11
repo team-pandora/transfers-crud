@@ -6,7 +6,7 @@ import { IOutgoingFile } from './interface';
 const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document>(
     {
         approvers: {
-            objectId: { type: 'ObjectId', requierd: true },
+            objectId: { type: 'ObjectId', required: true },
         },
         name: {
             type: String,
@@ -28,7 +28,13 @@ const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document
         },
         ceratedAt: { type: Date, required: true },
     },
-    { timestamps: true },
+    {
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: false,
+        },
+        versionKey: false,
+    },
 );
 
 outgoingFileSchema.index({ name: 1 });
