@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import config from '../../config';
-import { setDefaultSettings, setErrorHandler } from '../../utils/mongoose';
+import { setErrorHandler } from '../../utils/mongoose';
 import { IOutgoingFile } from './interface';
 
 const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document>(
@@ -37,9 +37,6 @@ const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document
     },
 );
 
-outgoingFileSchema.index({ name: 1 });
-
-setDefaultSettings(outgoingFileSchema);
 setErrorHandler(outgoingFileSchema);
 
 const outgoingFileModel = mongoose.model<IOutgoingFile & mongoose.Document>(

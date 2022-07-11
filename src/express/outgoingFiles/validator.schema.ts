@@ -1,42 +1,45 @@
 import * as Joi from 'joi';
-import { JoiMongoObjectId } from '../../utils/joi';
+import config from '../../config';
+import { JoiObjectId } from '../../utils/joi';
 
 /**
- * POST /api/outgoing/
- * { data: 'someData123' }
+ * POST /api/outgoing/file
+ * { approvers: [{ name: michael simkinm, id: '126732918'}], from: '123621782', to: '123621776',
+ * classification: 'top secret', info: 'super secret drive file!!', destination: 'TOMCAL' }
  */
 export const createOutgoingFileRequestSchema = Joi.object({
     body: {
-        // approvers: Joi.array().items(Joi.string()).required(),
-        // fileName: Joi.string().alphanum().required(),
+        approvers: Joi.array().items(JoiObjectId).required(),
+        fileName: Joi.string().required(),
+        from: JoiObjectId.required(),
+        to: JoiObjectId.required(),
+        classification: Joi.string().required(),
+        info: Joi.string().required(),
+        destination: Joi.string()
+            .valid(...config.constants.destination)
+            .required(),
     },
     query: {},
     params: {},
 });
 
 /**
- * GET /api/features?data=someData123
- * { data: 'someData123' }
+ * GET /api/outgoing/file/:id
+ * { id: '62655a5dd681ae7e5f9eafe0' }
  */
 export const getOutgoingFileRequestSchema = Joi.object({
-    query: {
-        _id: JoiMongoObjectId.optional(),
-        data: Joi.string().alphanum().optional(),
-    },
+    params: { id: JoiObjectId.required() },
+    query: {},
     body: {},
-    params: {},
 });
 
 /**
- * DELETE /api/features?data=someData123
- * { data: 'someData123' }
+ * DELETE /api/outgoing/file/:id
+ * { id: '62655a5dd681ae7e5f9eafe0' }
  *
  */
 export const deleteOutgoingFileRequestSchema = Joi.object({
-    query: {
-        _id: JoiMongoObjectId.optional(),
-        data: Joi.string().alphanum().optional(),
-    },
+    params: { id: JoiObjectId.required() },
+    query: {},
     body: {},
-    params: {},
 });
