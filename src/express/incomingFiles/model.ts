@@ -10,6 +10,7 @@ const IncomingFileSchema = new mongoose.Schema<IIncomingFile & mongoose.Document
             required: true,
             unique: true,
         },
+        fileId: { type: 'ObjectId', required: true, ref: config.mongo.incomingFilesCollectionName },
         from: {
             type: 'ObjectId',
             required: true,
@@ -29,8 +30,6 @@ const IncomingFileSchema = new mongoose.Schema<IIncomingFile & mongoose.Document
         versionKey: false,
     },
 );
-
-IncomingFileSchema.index({ data: 1 });
 
 setDefaultSettings(IncomingFileSchema);
 setErrorHandler(IncomingFileSchema);
