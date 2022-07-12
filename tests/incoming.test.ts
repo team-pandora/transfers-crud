@@ -1,24 +1,23 @@
-/* eslint-disable no-underscore-dangle */
 import * as mongoose from 'mongoose';
 import config from '../src/config';
 import Server from '../src/express/server';
 
 jest.setTimeout(30000);
 
-const removeFeatureCollection = async () =>
-    mongoose.connection.collections[config.mongo.featuresCollectionName].deleteMany({});
+const removeIncomingCollection = async () =>
+    mongoose.connection.collections[config.mongo.incomingFilesCollectionName].deleteMany({});
 
-describe('features tests', () => {
+describe('incoming files tests', () => {
     let app: Express.Application;
 
     beforeAll(async () => {
         await mongoose.connect(config.mongo.uri);
-        await removeFeatureCollection();
+        await removeIncomingCollection();
         app = Server.createExpressApp();
     });
 
     afterEach(async () => {
-        await removeFeatureCollection();
+        await removeIncomingCollection();
     });
 
     afterAll(async () => {

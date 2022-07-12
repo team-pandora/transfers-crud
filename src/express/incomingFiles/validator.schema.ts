@@ -1,9 +1,6 @@
 import * as Joi from 'joi';
 import { JoiMongoObjectId } from '../../utils/joi';
 
-/**
- * GET /api/features?data=someData123
- */
 export const getIncomingFileRequestSchema = Joi.object({
     query: {},
     body: {},
@@ -12,10 +9,6 @@ export const getIncomingFileRequestSchema = Joi.object({
     },
 });
 
-/**
- * POST /api/features/
- * { data: 'someData123' }
- */
 export const createIncomingFileRequestSchema = Joi.object({
     body: {
         name: Joi.string().alphanum().required(),

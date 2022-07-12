@@ -1,17 +1,10 @@
 import { Router } from 'express';
 import wrapMiddleware from '../../utils/express';
 import ValidateRequest from '../../utils/joi';
-import * as incomingValidator from './validator.schema';
 import * as incomingFileController from './controller';
+import * as incomingValidator from './validator.schema';
 
 const incomingFilesRouter: Router = Router();
-
-// incomingFilesRouter.get('/', ValidateRequest(getFeaturesRequestSchema), wrapMiddleware(FeaturesController.getFeatures));
-// incomingFilesRouter.post(
-//     '/',
-//     ValidateRequest(createFeatureRequestSchema),
-//     wrapMiddleware(FeaturesController.createFeature),
-// );
 
 incomingFilesRouter.get(
     '/:id',

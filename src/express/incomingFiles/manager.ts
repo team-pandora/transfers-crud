@@ -5,9 +5,12 @@ import { IIncomingFile } from './interface';
  * @param {Partial<IIncomingFile>} query - The query to filter the features.
  * @returns {Promise<IIncomingFile[]>} - Promise object containing the filtered features.
  */
-export const getIncomingFile = (query: Partial<IIncomingFile>): Promise<any> => {
-    // eslint-disable-next-line no-underscore-dangle
-    return IncomingFileModel.findOne(query._id).exec();
+export const getIncomingFile = async (query: Partial<IIncomingFile>): Promise<IIncomingFile> => {
+    const result = await IncomingFileModel.findOne(query._id);
+    if (!result) {
+        throw new Error('Incoming file not found');
+    }
+    return result;
 };
 
 /**
@@ -20,6 +23,5 @@ export const createIncomingFile = (body: IIncomingFile): Promise<IIncomingFile> 
 };
 
 export const deleteIncomingFile = (query: Partial<IIncomingFile>): Promise<any> => {
-    // eslint-disable-next-line no-underscore-dangle
     return IncomingFileModel.findOneAndDelete(query._id).exec();
 };
