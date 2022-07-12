@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ServerError } from './error';
-import incomingRouter from './incomingFiles/router';
-import outgoingRouter from './outgoingFiles/router';
+import incomingRouter from './incoming/router';
+import outgoingRouter from './outgoing/router';
 
 const appRouter: Router = Router();
 

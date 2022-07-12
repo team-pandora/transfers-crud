@@ -1,27 +1,31 @@
 import * as mongoose from 'mongoose';
 import config from '../../config';
-import { setErrorHandler } from '../../utils/mongoose';
+import { setDefaultSettings, setErrorHandler } from '../../utils/mongoose';
 import { IOutgoingFile } from './interface';
 
 const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document>(
     {
-        approvers: [
-            {
-                type: String,
-                required: true,
-            },
-        ],
+        approvers: {
+            type: [String],
+            required: true,
+        },
         fileName: {
             type: String,
             required: true,
-            unique: true,
         },
-        fileId: { type: String, required: true, ref: config.mongo.outgoingFilesCollectionName },
         from: {
             type: String,
             required: true,
         },
         to: {
+            type: [String],
+            required: true,
+        },
+        classification: {
+            type: String,
+            required: true,
+        },
+        info: {
             type: String,
             required: true,
         },
@@ -32,13 +36,14 @@ const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document
     },
     {
         timestamps: {
-            createdAt: 'createdAt',
+            createdAt: true,
             updatedAt: false,
         },
         versionKey: false,
     },
 );
 
+setDefaultSettings(outgoingFileSchema);
 setErrorHandler(outgoingFileSchema);
 
 const outgoingFileModel = mongoose.model<IOutgoingFile & mongoose.Document>(

@@ -1,15 +1,23 @@
 // import * as mongoose from 'mongoose';
 
+import * as mongoose from 'mongoose';
+import config from '../../config';
+
+type destination = typeof config.constants.destinations[number];
+
 export interface IOutgoingFile {
-    approvers: [{ id: string }];
+    _id: mongoose.Types.ObjectId;
+    approvers: string[];
     fileName: string;
-    fileId: string;
     from: string;
-    to: string;
+    to: string[];
     classification: string;
     info: string;
-    destination: string;
+    destination: destination;
+    createdAt: Date;
 }
+
+export type INewOutgoingFile = Omit<IOutgoingFile, '_id' | 'createdAt'>;
 
 export interface IOutgoingStatus {
     flowName: string;
