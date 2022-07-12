@@ -7,17 +7,19 @@ import * as outogingValidator from './validator.schema';
 const outgoingRouter: Router = Router();
 
 outgoingRouter.post(
-    '/file',
+    '/',
     ValidateRequest(outogingValidator.createOutgoingFileRequestSchema),
     wrapMiddleware(outgoingController.createOutgoingFile),
 );
+
 outgoingRouter.get(
-    '/file/:id',
+    '/:id',
     ValidateRequest(outogingValidator.getOutgoingFileRequestSchema),
     wrapMiddleware(outgoingController.getOutgoingFile),
 );
+
 outgoingRouter.delete(
-    '/file/:id',
+    '/:id',
     ValidateRequest(outogingValidator.deleteOutgoingFileRequestSchema),
     wrapMiddleware(outgoingController.deleteOutgoingFile),
 );

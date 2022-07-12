@@ -4,8 +4,9 @@ import * as OutgoingManager from './repository';
 export const createOutgoingFile = async (req: Request, res: Response) => {
     res.json(await OutgoingManager.createOutgoingFile(req.body));
 };
+
 export const getOutgoingFile = async (req: Request, res: Response) => {
-    res.json(await OutgoingManager.getOutgoingFileById(req.params));
+    res.json(await OutgoingManager.getOutgoingFileById(req.params.id));
 };
 
 export const deleteOutgoingFile = async (req: Request, res: Response) => {

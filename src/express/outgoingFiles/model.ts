@@ -5,28 +5,30 @@ import { IOutgoingFile } from './interface';
 
 const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document>(
     {
-        approvers: {
-            objectId: { type: 'ObjectId', required: true },
-        },
-        name: {
+        approvers: [
+            {
+                type: String,
+                required: true,
+            },
+        ],
+        fileName: {
             type: String,
             required: true,
             unique: true,
         },
-        fileId: { type: 'ObjectId', required: true, ref: config.mongo.outgoingFilesCollectionName },
+        fileId: { type: String, required: true, ref: config.mongo.outgoingFilesCollectionName },
         from: {
-            type: 'ObjectId',
+            type: String,
             required: true,
         },
         to: {
-            type: 'ObjectId',
+            type: String,
             required: true,
         },
         destination: {
             type: String,
             required: true,
         },
-        ceratedAt: { type: Date, required: true },
     },
     {
         timestamps: {

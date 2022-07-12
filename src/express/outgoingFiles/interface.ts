@@ -1,16 +1,14 @@
-import * as mongoose from 'mongoose';
+// import * as mongoose from 'mongoose';
 
 export interface IOutgoingFile {
-    _id: mongoose.Types.ObjectId;
-    approvers: mongoose.Types.ObjectId[];
-    name: string;
-    fileId: mongoose.Types.ObjectId;
-    from: mongoose.Types.ObjectId;
-    to: mongoose.Types.ObjectId;
+    approvers: [{ id: string }];
+    fileName: string;
+    fileId: string;
+    from: string;
+    to: string;
     classification: string;
     info: string;
     destination: string;
-    ceratedAt: Date;
 }
 
 export interface IOutgoingStatus {

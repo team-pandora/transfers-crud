@@ -3,14 +3,15 @@ import config from '../../config';
 import { JoiObjectId } from '../../utils/joi';
 
 /**
- * POST /api/outgoing/file
- * { approvers: [{ name: michael simkinm, id: '126732918'}], from: '123621782', to: '123621776',
+ * POST /api/outgoing
+ * { approvers: [{ name: michael simkin, id: '126732918'}], fileName: SECRET ,from: '123621782', to: '123621776',
  * classification: 'top secret', info: 'super secret drive file!!', destination: 'TOMCAL' }
  */
 export const createOutgoingFileRequestSchema = Joi.object({
     body: {
-        approvers: Joi.array().items(JoiObjectId).required(),
+        approvers: Joi.array().items(Joi.string()).required(),
         fileName: Joi.string().required(),
+        fileId: Joi.string(),
         from: JoiObjectId.required(),
         to: JoiObjectId.required(),
         classification: Joi.string().required(),
@@ -24,7 +25,7 @@ export const createOutgoingFileRequestSchema = Joi.object({
 });
 
 /**
- * GET /api/outgoing/file/:id
+ * GET /api/outgoing/:id
  * { id: '62655a5dd681ae7e5f9eafe0' }
  */
 export const getOutgoingFileRequestSchema = Joi.object({
@@ -34,7 +35,7 @@ export const getOutgoingFileRequestSchema = Joi.object({
 });
 
 /**
- * DELETE /api/outgoing/file/:id
+ * DELETE /api/outgoing/:id
  * { id: '62655a5dd681ae7e5f9eafe0' }
  *
  */
