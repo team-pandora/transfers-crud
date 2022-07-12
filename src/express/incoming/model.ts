@@ -8,23 +8,27 @@ const IncomingFileSchema = new mongoose.Schema<IIncomingFile & mongoose.Document
         name: {
             type: String,
             required: true,
-            unique: true,
         },
-        fileId: { type: 'ObjectId', required: true, ref: config.mongo.incomingFilesCollectionName },
         from: {
-            type: 'ObjectId',
+            type: String,
             required: true,
         },
         to: {
-            type: 'ObjectId',
+            type: [String],
             required: true,
         },
-        destination: { type: String, required: true },
-        source: { type: String, required: true },
+        size: {
+            type: Number,
+            required: true,
+        },
+        source: {
+            type: String,
+            required: true,
+        },
     },
     {
         timestamps: {
-            createdAt: 'createdAt',
+            createdAt: true,
             updatedAt: false,
         },
         versionKey: false,

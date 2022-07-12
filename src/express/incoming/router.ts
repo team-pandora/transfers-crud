@@ -4,24 +4,24 @@ import ValidateRequest from '../../utils/joi';
 import * as incomingFileController from './controller';
 import * as incomingValidator from './validator.schema';
 
-const incomingFilesRouter: Router = Router();
+const incomingRouter: Router = Router();
 
-incomingFilesRouter.get(
-    '/:id',
-    ValidateRequest(incomingValidator.getIncomingFileRequestSchema),
-    wrapMiddleware(incomingFileController.getIncomingFile),
-);
-
-incomingFilesRouter.post(
+incomingRouter.post(
     '/',
     ValidateRequest(incomingValidator.createIncomingFileRequestSchema),
     wrapMiddleware(incomingFileController.createIncomingFile),
 );
 
-incomingFilesRouter.delete(
-    '/:id',
+incomingRouter.get(
+    '/:fileId',
+    ValidateRequest(incomingValidator.getIncomingFileByIdRequestSchema),
+    wrapMiddleware(incomingFileController.getIncomingFileById),
+);
+
+incomingRouter.delete(
+    '/:fileId',
     ValidateRequest(incomingValidator.deleteIncomingFileRequestSchema),
     wrapMiddleware(incomingFileController.deleteIncomingFile),
 );
 
-export default incomingFilesRouter;
+export default incomingRouter;
