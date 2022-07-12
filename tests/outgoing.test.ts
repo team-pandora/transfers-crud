@@ -26,16 +26,15 @@ describe('Outgoing tests:', () => {
         await mongoose.disconnect();
     });
 
-    describe('/api/outoging', () => {
+    describe('/api/outgoing', () => {
         const outgoingFile = {
-            approvers: ['124141298'],
-            fileName: 'secret',
-            fileId: '626fcb74f9c77439f394b5df',
+            approvers: ['626fcb74f9c77439f394b354'],
+            fileName: 'file',
             from: '626fcb74f9c77439f394b5da',
-            to: '626fcb74f9c77439f394b34a',
+            to: ['626fcb74f9c77439f394b34a'],
             classification: 'top-secret',
             info: 'some secret stuff in here!!',
-            destination: 'CTS',
+            destination: 'cts',
         };
 
         describe('POST', () => {
