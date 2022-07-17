@@ -1,5 +1,3 @@
-// import * as mongoose from 'mongoose';
-
 import * as mongoose from 'mongoose';
 import config from '../../config';
 
@@ -41,3 +39,13 @@ export interface IOutgoingStatus {
     }[];
     statusId: string;
 }
+
+export type IOutgoingFileFilters = {
+    approvers?: string[];
+    fileName?: string;
+    from?: string;
+    to?: string[];
+    classification?: string;
+    info?: string;
+    destination?: destination;
+};

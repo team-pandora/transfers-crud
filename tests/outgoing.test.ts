@@ -26,47 +26,71 @@ describe('Outgoing tests:', () => {
         await mongoose.disconnect();
     });
 
-    describe('/api/outgoing', () => {
-        const outgoingFile = {
-            approvers: ['626fcb74f9c77439f394b354'],
-            fileName: 'file',
-            from: '626fcb74f9c77439f394b5da',
-            to: ['626fcb74f9c77439f394b34a'],
-            classification: 'top-secret',
-            info: 'some secret stuff in here!!',
-            destination: 'cts',
-        };
+    const outgoingFile = {
+        approvers: ['626fcb74f9c77439f394b354'],
+        fileName: 'file',
+        from: '626fcb74f9c77439f394b5da',
+        to: ['626fcb74f9c77439f394b34a', '626fcb74f9c77439f394b345'],
+        classification: 'top-secret',
+        info: 'some secret stuff in here!!',
+        destination: 'cts',
+    };
 
-        describe('POST', () => {
-            it('should create an outgoing file', async () => {
-                const { body: createdFile } = await request(app).post('/api/outgoing').send(outgoingFile).expect(200);
-
-                expect(mongoose.Types.ObjectId.isValid(createdFile._id)).toBe(true);
-                expect(createdFile).toMatchObject(outgoingFile);
-                expect(new Date(createdFile.createdAt).getTime()).toBeCloseTo(Date.now(), -2);
-                expect(new Date(createdFile.updatedAt).getTime()).toBeCloseTo(Date.now(), -2);
-            });
-
-            it('should fail validation for unknown fields', () => {
-                return request(app).post('/api/outgoing').send({ fileSize: 340 }).expect(400);
-            });
-
-            it('should fail because of missing fields ', async () => {
-                return request(app).post('/api/outgoing').send({}).expect(400);
-            });
-
-            it('should fail with duplicate key error ', async () => {
-                await request(app).post('/api/outgoing').send(outgoingFile).expect(200);
-                await request(app).post('/api/outgoing').send(outgoingFile).expect(400);
-            });
+    describe('Create file', () => {
+        it('should create a file', async () => {
+            await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile })
+                .expect(200);
         });
 
-        describe('GET', () => {
-            it('should return a file', async () => {
-                const { body: createdFile } = await request(app).post('/api/outgoing').send(outgoingFile).expect(200);
+        it('should fail to create a file', async () => {
+            await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile, fileName: '' })
+                .expect(400);
+        });
+    });
 
-                await request(app).get(`/api/outgoing/${createdFile._id}`).expect(200);
-            });
+    describe('Get files', () => {
+        it('should get a file', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile })
+                .expect(200);
+
+            const createdOutgoingFile = await request(app).get(`/api/outgoing/${createdFile._id}`).expect(200);
+            expect(createdOutgoingFile);
+        });
+
+        it('should get files', async () => {
+            await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile })
+                .expect(200);
+
+            await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile, fileName: 'file2' })
+                .expect(200);
+
+            const { body: result } = await request(app)
+                .get('/api/outgoing/files')
+                .query({ from: outgoingFile.from })
+                .expect(200);
+            expect(result.length).toBe(2);
+        });
+    });
+
+    describe('Delete file', () => {
+        it('should delete a file', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile })
+                .expect(200);
+
+            await request(app).delete(`/api/outgoing/${createdFile._id}`).expect(200);
+            await request(app).get(`/api/outgoing/${createdFile._id}`).expect(404);
         });
     });
 });

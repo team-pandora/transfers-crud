@@ -26,6 +26,22 @@ export const getOutgoingFileRequestSchema = Joi.object({
     body: {},
 });
 
+export const getOutgoingFilesRequestSchema = Joi.object({
+    query: {
+        approvers: Joi.array().items(Joi.string()).min(1).optional(),
+        fileName: Joi.string().optional(),
+        from: Joi.string().optional(),
+        to: Joi.array().items(Joi.string()).min(1).optional(),
+        classification: Joi.string().optional(),
+        info: Joi.string().optional(),
+        destination: Joi.string()
+            .valid(...config.constants.destinations)
+            .optional(),
+    },
+    params: {},
+    body: {},
+});
+
 export const deleteOutgoingFileRequestSchema = Joi.object({
     params: {
         fileId: JoiObjectId.required(),

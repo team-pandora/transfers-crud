@@ -18,6 +18,12 @@ outgoingRouter.get(
     wrapMiddleware(outgoingController.getOutgoingFile),
 );
 
+outgoingRouter.get(
+    '/files',
+    ValidateRequest(outgoingValidator.getOutgoingFilesRequestSchema),
+    wrapMiddleware(outgoingController.getOutgoingFiles),
+);
+
 outgoingRouter.delete(
     '/:fileId',
     ValidateRequest(outgoingValidator.deleteOutgoingFileRequestSchema),
