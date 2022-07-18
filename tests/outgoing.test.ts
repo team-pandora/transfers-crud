@@ -75,7 +75,7 @@ describe('Outgoing tests:', () => {
                 .expect(200);
 
             const { body: result } = await request(app)
-                .get('/api/outgoing/files')
+                .get('/api/outgoing')
                 .query({ from: outgoingFile.from })
                 .expect(200);
             expect(result.length).toBe(2);
@@ -91,6 +91,16 @@ describe('Outgoing tests:', () => {
 
             await request(app).delete(`/api/outgoing/${createdFile._id}`).expect(200);
             await request(app).get(`/api/outgoing/${createdFile._id}`).expect(404);
+        });
+
+        it('should fail to delete a file', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/outgoing')
+                .send({ ...outgoingFile })
+                .expect(200);
+
+            await request(app).delete(`/api/outgoing/${createdFile._id}`).expect(200);
+            await request(app).get('/api/outgoing/62d50b1790b4f58abfe40ff0').expect(404);
         });
     });
 });

@@ -19,7 +19,7 @@ outgoingRouter.get(
 );
 
 outgoingRouter.get(
-    '/files',
+    '/',
     ValidateRequest(outgoingValidator.getOutgoingFilesRequestSchema),
     wrapMiddleware(outgoingController.getOutgoingFiles),
 );
