@@ -1,17 +1,21 @@
 import * as mongoose from 'mongoose';
+import config from '../../config';
+
+type destination = typeof config.constants.destinations[number];
 
 export interface IOutgoingFile {
     _id: mongoose.Types.ObjectId;
-    approvers: mongoose.Types.ObjectId[];
-    name: string;
-    fileId: mongoose.Types.ObjectId;
-    from: mongoose.Types.ObjectId;
-    to: mongoose.Types.ObjectId;
+    approvers: string[];
+    fileName: string;
+    from: string;
+    to: string[];
     classification: string;
     info: string;
-    destination: string;
-    ceratedAt: Date;
+    destination: destination;
+    createdAt: Date;
 }
+
+export type INewOutgoingFile = Omit<IOutgoingFile, '_id' | 'createdAt'>;
 
 export interface IOutgoingStatus {
     flowName: string;
@@ -35,3 +39,13 @@ export interface IOutgoingStatus {
     }[];
     statusId: string;
 }
+
+export type IOutgoingFileFilters = {
+    approvers?: string[];
+    fileName?: string;
+    from?: string;
+    to?: string[];
+    classification?: string;
+    info?: string;
+    destination?: destination;
+};

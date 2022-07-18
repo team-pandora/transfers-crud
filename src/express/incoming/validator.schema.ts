@@ -1,12 +1,12 @@
 import * as Joi from 'joi';
-import { JoiMongoObjectId } from '../../utils/joi';
+import { JoiObjectId } from '../../utils/joi';
 
 /**
  * GET /api/features?data=someData123
  */
 export const getFeaturesRequestSchema = Joi.object({
     query: {
-        _id: JoiMongoObjectId.optional(),
+        _id: JoiObjectId.optional(),
         data: Joi.string().alphanum().optional(),
     },
     body: {},

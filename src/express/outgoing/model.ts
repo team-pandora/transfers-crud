@@ -6,38 +6,42 @@ import { IOutgoingFile } from './interface';
 const outgoingFileSchema = new mongoose.Schema<IOutgoingFile & mongoose.Document>(
     {
         approvers: {
-            objectId: { type: 'ObjectId', required: true },
+            type: [String],
+            required: true,
         },
-        name: {
+        fileName: {
             type: String,
             required: true,
-            unique: true,
         },
-        fileId: { type: 'ObjectId', required: true, ref: config.mongo.outgoingFilesCollectionName },
         from: {
-            type: 'ObjectId',
+            type: String,
             required: true,
         },
         to: {
-            type: 'ObjectId',
+            type: [String],
+            required: true,
+        },
+        classification: {
+            type: String,
+            required: true,
+        },
+        info: {
+            type: String,
             required: true,
         },
         destination: {
             type: String,
             required: true,
         },
-        ceratedAt: { type: Date, required: true },
     },
     {
         timestamps: {
-            createdAt: 'createdAt',
+            createdAt: true,
             updatedAt: false,
         },
         versionKey: false,
     },
 );
-
-outgoingFileSchema.index({ name: 1 });
 
 setDefaultSettings(outgoingFileSchema);
 setErrorHandler(outgoingFileSchema);
