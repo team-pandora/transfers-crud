@@ -13,6 +13,7 @@ services:
       MONGO_URI: mongodb://localhost:27017/transfers-crud
       MONGO_OUTGOING_FILES_COLLECTION_NAME: outgoingFiles
       MONGO_INCOMING_FILES_COLLECTION_NAME: incomingFiles
+      INCOMING_MAX_FILE_SIZE: 104857600
 
     ports:
       - 8000:8000

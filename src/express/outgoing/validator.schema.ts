@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { JoiMongoObjectId } from '../../utils/joi';
+import { JoiObjectId } from '../../utils/joi';
 
 /**
  * POST /api/outgoing/
@@ -20,7 +20,7 @@ export const createOutgoingFileRequestSchema = Joi.object({
  */
 export const getOutgoingFileRequestSchema = Joi.object({
     query: {
-        _id: JoiMongoObjectId.optional(),
+        _id: JoiObjectId.optional(),
         data: Joi.string().alphanum().optional(),
     },
     body: {},
@@ -34,7 +34,7 @@ export const getOutgoingFileRequestSchema = Joi.object({
  */
 export const deleteOutgoingFileRequestSchema = Joi.object({
     query: {
-        _id: JoiMongoObjectId.optional(),
+        _id: JoiObjectId.optional(),
         data: Joi.string().alphanum().optional(),
     },
     body: {},
