@@ -1,8 +1,9 @@
 import * as mongoose from 'mongoose';
-import config from '../src/config';
+import * as request from 'supertest';
+import config from '../src/config/index';
 import Server from '../src/express/server';
 
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 const removeIncomingCollection = async () =>
     mongoose.connection.collections[config.mongo.incomingFilesCollectionName].deleteMany({});
@@ -23,43 +24,98 @@ describe('incoming files tests', () => {
     afterAll(async () => {
         await mongoose.disconnect();
     });
+    const incomingFile = {
+        name: 'file',
+        from: '627ce9fc32b9985210f0e79b',
+        to: ['627ce9fc32b9985210f0e79a'],
+        size: 45,
+        source: 'cts',
+    };
 
-    // describe('/api/features', () => {
-    //     describe('POST', () => {
-    //         it('should fail validation for unknown fields', () => {
-    //             return request(app).post('/api/features').send({ invalidField: 'some value' }).expect(400);
-    //         });
+    describe('Create incoming file', () => {
+        it('should create incoming file', async () => {
+            await request(app)
+                .post('/api/incoming')
+                .send({ ...incomingFile })
+                .expect(200);
+        });
+        it('should fail to create a file', async () => {
+            await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                    source: 'ccc',
+                });
+        });
+    });
 
-    //         it('should fail because of missing fields ', async () => {
-    //             return request(app).post('/api/features').send({}).expect(400);
-    //         });
+    describe('get incoming file', () => {
+        it('should create a file and then get it', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                })
+                .expect(200);
+            await request(app).get(`/api/incoming/${createdFile._id}`);
+            expect(200);
+        });
+        it('should fail to get the file', async () => {
+            await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                })
+                .expect(200);
+            await request(app).get(`/api/incoming/swef`);
+            expect(400);
+        });
+    });
+    describe('get multiple files', () => {
+        it('should get all file and filter them', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                })
+                .expect(200);
+            await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                    name: 'file2',
+                });
+            expect(200);
+            const { body: resultWithQuerry } = await request(app)
+                .get('/api/incoming')
+                .query({ name: createdFile.name })
+                .expect(200);
+            expect(resultWithQuerry.length).toBe(1);
 
-    //         it('should fail with duplicate key error ', async () => {
-    //             const newFeature = { data: 'someData' };
-    //             await request(app).post('/api/features').send(newFeature).expect(200);
-    //             await request(app).post('/api/features').send(newFeature).expect(400);
-    //         });
-
-    //         it('should create a feature', async () => {
-    //             const newFeature = { data: 'someData' };
-    //             const { body: createdFeature } = await request(app).post('/api/features').send(newFeature).expect(200);
-
-    //             expect(mongoose.Types.ObjectId.isValid(createdFeature._id)).toBe(true);
-    //             expect(createdFeature).toMatchObject(newFeature);
-    //             expect(new Date(createdFeature.createdAt).getTime()).toBeCloseTo(Date.now(), -2);
-    //             expect(new Date(createdFeature.updatedAt).getTime()).toBeCloseTo(Date.now(), -2);
-    //         });
-    //     });
-
-    //     describe('GET', () => {
-    //         it('should return all features', async () => {
-    //             const newFeature = { data: 'someData' };
-    //             await request(app).post('/api/features').send(newFeature).expect(200);
-
-    //             const { body: features } = await request(app).get('/api/features').expect(200);
-    //             expect(features).toHaveLength(1);
-    //             expect(mongoose.Types.ObjectId.isValid(features[0]._id)).toBe(true);
-    //         });
-    //     });
-    // });
+            const { body: resultWithOutQuerry } = await request(app).get('/api/incoming').expect(200);
+            expect(resultWithOutQuerry.length).toBe(2);
+        });
+    });
+    describe('delete incoming file', () => {
+        it('should delete incoming file', async () => {
+            const { body: createdFile } = await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                })
+                .expect(200);
+            await request(app).delete(`/api/incoming/${createdFile._id}`);
+            expect(200);
+        });
+        it('should fail to delete', async () => {
+            await request(app)
+                .post('/api/incoming')
+                .send({
+                    ...incomingFile,
+                })
+                .expect(200);
+            await request(app).delete(`/api/incoming/swef`);
+            expect(400);
+        });
+    });
 });

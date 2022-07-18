@@ -18,6 +18,12 @@ incomingRouter.get(
     wrapMiddleware(incomingFileController.getIncomingFileById),
 );
 
+incomingRouter.get(
+    '/',
+    ValidateRequest(incomingValidator.getMultipleFilesRequestSchema),
+    wrapMiddleware(incomingFileController.getMultipleFiles),
+);
+
 incomingRouter.delete(
     '/:fileId',
     ValidateRequest(incomingValidator.deleteIncomingFileRequestSchema),

@@ -10,6 +10,10 @@ export const getIncomingFileById = async (req: Request<{ fileId: mongoose.Types.
     res.json(await incomingFileManager.getIncomingFileById(req.params.fileId));
 };
 
+export const getMultipleFiles = async (req: Request, res: Response) => {
+    res.json(await incomingFileManager.getMultipleFiles(req.query));
+};
+
 export const deleteIncomingFile = async (req: Request<{ fileId: mongoose.Types.ObjectId }>, res: Response) => {
     res.json(await incomingFileManager.deleteIncomingFile(req.params.fileId));
 };

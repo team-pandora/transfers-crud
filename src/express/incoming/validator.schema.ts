@@ -24,6 +24,20 @@ export const getIncomingFileByIdRequestSchema = Joi.object({
     },
 });
 
+export const getMultipleFilesRequestSchema = Joi.object({
+    query: {
+        name: Joi.string().optional(),
+        from: Joi.string().optional(),
+        to: Joi.string().optional,
+        size: Joi.number().optional(),
+        source: Joi.string()
+            .valid(...config.constants.externalNetworks)
+            .optional(),
+    },
+    body: {},
+    params: {},
+});
+
 export const deleteIncomingFileRequestSchema = Joi.object({
     body: {},
     query: {},
